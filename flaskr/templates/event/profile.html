@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль | EventHub{% endblock %}
+
+{% block content %}
+<section class="max-w-4xl mx-auto px-6 py-12 pt-32">
+  <div class="flex items-center gap-6 mb-12">
+    <div id="avatarBig" class="w-24 h-24 rounded-full bg-violet-700 flex items-center justify-center text-4xl font-bold text-white shadow-xl shadow-violet-900/30">
+      {{ user.fullname[0] }}
+    </div>
+    <div>
+      <h1 class="text-3xl font-black text-white mb-1">Настройки профиля</h1>
+      <p id="userEmailDisplay" class="text-gray-400 font-medium"></p>
+    </div>
+  </div>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-20">
+    
+    <!-- Персональная информация -->
+    <div class="bg-gray-900 rounded-3xl p-8 border border-white/5 shadow-xl">
+      <h2 class="text-xl font-bold text-white mb-6">Личные данные</h2>
+      {% from "macros/_formhelpers.html" import render_field %}
+      <form id="profile_form" method="POST" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">Почта</label>
+          <input type="text" name="email" value="{{ user.email }}" disabled class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-gray-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition">
+        </div>
+        <div>
+          {{ render_field(profile_form.fullname, type="text", value=user.fullname, required=False) }}
+        </div>
+        <div>
+          {{ render_field(profile_form.phone, type="phone", value=user.phone, required=False) }}
+        </div>
+        {{ profile_form.submit_profile(class="w-full bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl py-3 mt-4 transition") }}
+      </form>
+    </div>
+    
+    <!-- Смена пароля -->
+    <div class="bg-gray-900 rounded-3xl p-8 border border-white/5 shadow-xl">
+      <h2 class="text-xl font-bold text-white mb-6">Смена пароля</h2>
+      <form id="password_form" method="POST" class="space-y-4">
+        <div>
+          {{ render_field(change_password_form.old_password, type="password", required=True) }}
+        </div>
+        <div>
+          {{ render_field(change_password_form.new_password, type="password", required=True) }}
+        </div>
+        <div>
+          {{ render_field(change_password_form.confirm_password, type="password", required=True) }}
+        </div>
+        {{ change_password_form.submit_password(class="w-full bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl py-3 mt-4 transition") }}
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}

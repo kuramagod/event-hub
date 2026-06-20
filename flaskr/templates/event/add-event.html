@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Добавить событие | EventHub{% endblock %}
+
+{% block content %}
+<section class="max-w-3xl mx-auto px-6 py-12 pb-20 pt-32">
+  <div class="mb-10">
+    <h1 class="text-3xl font-black tracking-tight mb-2 text-white">Добавить событие</h1>
+    <p class="text-gray-400">Заполните данные для публикации мероприятия в каталоге.</p>
+  </div>
+  {% from "macros/_formhelpers.html" import render_field %}
+  <form method='POST' class="bg-gray-900 rounded-3xl p-8 border border-white/5 shadow-2xl space-y-6" id="create_form">
+    <div>
+    {{ render_field(form.name, type="text", placeholder='Пример: Джазовый вечер', required=True) }}
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="create_form">
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-1.5">{{ form.category.label.text }} <span class="text-rose-500">*</span></label>
+        <select name="{{ form.category.name }}" id="{{ form.category.id }}" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition appearance-none">
+          {% for category in form.category.query_factory() %}
+            <option value="{{ category.id }}" {% if form.category.data and form.category.data.id == category.id %}selected{% endif %}>
+              {{ category.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        {{ render_field(form.image_url, type="url", placeholder='https://...', required=True) }}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-1.5">{{ form.city.label.text }}<span class="text-rose-500">*</span></label>
+        <select name="{{ form.city.name }}" id="{{ form.city.id }}" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition appearance-none">
+          {% for city in form.city.query_factory() %}
+            <option value="{{ city.id }}" {% if form.city.data and form.city.data.id == city.id %}selected{% endif %}>
+              {{ city.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        {{ render_field(form.address, type="text", placeholder='ул. Арбат, 12', required=True) }}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        {{ render_field(form.date, type="date", required=True) }}
+      </div>
+      <div>
+        {{ render_field(form.time, type="time", required=True) }}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        {{ render_field(form.price, type="number", placeholder='0', required=True) }}
+      </div>
+    </div>
+
+    <div>
+      {{ render_field(form.description, type="textarea", rows="5", placeholder="Подробное описание события...", required=True) }}
+    </div>
+
+    <button type="submit" class="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-xl py-4 transition shadow-lg shadow-violet-900/20">Опубликовать</button>
+  </form>
+</section>
+{% endblock %}

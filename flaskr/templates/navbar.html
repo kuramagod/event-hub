@@ -1,0 +1,29 @@
+<nav class="h-16 flex items-center justify-between px-8 border-b border-white/10 bg-black/40 backdrop-blur-md shrink-0 fixed top-0 inset-x-0 z-50">
+  <div class="flex items-center gap-8 w-full max-w-7xl mx-auto">
+    <div class="flex items-center gap-2">
+      <a href="{{ url_for('event.index') }}" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-violet-600 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        </div>
+        <span class="text-xl font-black tracking-tighter text-white">EVENT<span class="text-violet-500">HUB</span></span>
+      </a>
+    </div>
+    <div class="hidden md:flex gap-6 text-sm font-medium text-gray-400 uppercase tracking-widest flex-1">
+      <a href="{{ url_for('event.index') }}" class="{% if request.endpoint == 'event.index' %}text-white border-b-2 border-violet-500 pb-1{% else %}hover:text-white transition{% endif %}">События</a>
+      <a href="{{ url_for('event.collection') }}" class="{% if request.endpoint == 'event.collection' %}text-white border-b-2 border-violet-500 pb-1{% else %}hover:text-white transition{% endif %}">Коллекция</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="{{ url_for('event.add_event') }}" class="px-4 py-2 text-sm font-semibold text-violet-400 border border-violet-500/50 rounded-xl hover:bg-violet-500/10 transition whitespace-nowrap hidden sm:block">Добавить событие</a>
+      {% if user %}
+          <a href="{{ url_for('event.profile') }}" class="hover:opacity-80 transition group">
+            <div class="w-10 h-10 rounded-full bg-violet-700 flex items-center justify-center font-bold border-2 border-white/10 text-white shadow-lg group-hover:shadow-violet-900/50 transition-all">
+              {{ user.fullname[0] }}
+            </div>
+          </a>
+          <a href="{{ url_for('auth.logout') }}" class="text-sm text-gray-400 hover:text-white transition font-medium">Выйти</a>
+      {% else %}
+      <a href="{{ url_for('event.add_event') }}" class="px-4 py-2 text-sm font-semibold text-violet-400 border border-violet-500/50 rounded-xl hover:bg-violet-500/10 transition whitespace-nowrap hidden sm:block">Авторизоваться</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
