@@ -12,13 +12,19 @@
   <!-- Сетка -->
   <div id="collectionGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
     {% for event in events %}
-      <div class="bg-gray-900 rounded-3xl overflow-hidden border border-white/5 flex flex-col group cursor-pointer hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20 event-card relative" data-id="{{ event.id }}" data-title="{{ event.name }}" data-category="{{ event.category.name }}" data-city="{{ event.city.name }}" data-price="{{ event.price }}">
+      <div class="bg-gray-900 rounded-3xl overflow-hidden border border-white/5 flex flex-col group cursor-pointer hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20 event-card relative" 
+        data-id="{{ event.id }}"
+        data-slug="{{ event.slug }}"
+        data-title="{{ event.name }}"
+        data-category="{{ event.category.name }}" 
+        data-city="{{ event.city.name }}" 
+        data-price="{{ event.price }}">
         <div class="relative h-44">
           <img src="{{ event.image_url }}" alt="{{ event.name }}" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
           <span class="absolute top-3 left-3 px-3 py-1 bg-violet-500/20 text-violet-300 border-violet-500/30 backdrop-blur-md text-xs font-bold rounded-lg border uppercase">{{ event.category.name }}</span>
           <!-- Кнопка удаления -->
-          <button class="absolute inset-0 m-auto w-12 h-12 bg-red-600/90 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 delete-btn" data-event-id="{{ event.id }}">
+          <button class="absolute inset-0 m-auto w-12 h-12 bg-red-600/0 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 delete-btn" data-event-id="{{ event.id }}">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>

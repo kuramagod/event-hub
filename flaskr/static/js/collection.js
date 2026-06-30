@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.event-card').forEach(card => {
     const eventId = card.dataset.id;
+    const slug = card.dataset.slug;
     if (!eventId) return;
 
     card.addEventListener('click', (e) => {
       if (e.target.closest('.delete-btn')) return;
-      window.location.href = `/event?id=${eventId}`;
+      window.location.href = `/event/${slug}`;
     });
   });
 
@@ -17,15 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const card = btn.closest('.event-card');
 
       try {
-        const response = await fetch(`/api/toggle-like/${eventId}`, {
-          method: 'POST',
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          credentials: 'same-origin'
-        });
-
-        if (response.ok) {
+        const data = await apiToggleLike(eventId);
+        if (data) {
           card.remove();
 
           showToast('Мероприятие удалено из коллекции', 'success');

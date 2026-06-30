@@ -18,7 +18,7 @@ function showToast(message, type = 'success') {
 }
 
 async function apiToggleLike(eventId) {
-  const response = await fetch(`event/api/toggle-like/${eventId}`, {
+  const response = await fetch(`api/toggle-like/${eventId}`, {
     method: 'POST',
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
@@ -26,13 +26,10 @@ async function apiToggleLike(eventId) {
     credentials: 'same-origin'
   });
 
-  if (response.redirected) {
-    window.location.href = response.url;
-    return null;
-  }
-
   const data = await response.json();
-  if (!response.ok) {
+  if (response.ok) {
+    data.liked ? showToast('Мероприятие добавлено в коллекцию', 'success') : showToast('Мероприятие удалено из коллекции', 'success');
+  } else {
     showToast(data.error || 'Ошибка запроса', 'error');
     return null;
   }
