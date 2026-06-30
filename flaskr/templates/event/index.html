@@ -52,8 +52,13 @@
   <!-- Сетка мероприятий -->
   <div id="eventsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
     {% for event in events %}
-    <a href="{{ url_for('event.event', slug=event.slug) }}" class="block no-underline">
-      <div class="bg-gray-900 rounded-3xl overflow-hidden border border-white/5 flex flex-col group cursor-pointer hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20 event-card" data-id="{{ event.id }}" data-title="{{ event.name }}" data-category="{{ event.category.name }}" data-city="{{ event.city.name }}" data-price="{{ event.price }}">
+      <div class="bg-gray-900 rounded-3xl overflow-hidden border border-white/5 flex flex-col group cursor-pointer hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20 event-card" 
+        data-id="{{ event.id }}" 
+        data-title="{{ event.name }}" 
+        data-category="{{ event.category.name }}" 
+        data-city="{{ event.city.name }}" 
+        data-price="{{ event.price }}" 
+        onclick="location.href='{{ url_for('event.event', slug=event.slug) }}'">
         <div class="relative h-44">
           <img src="{{ event.image_url }}" alt="{{ event.name }}" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>

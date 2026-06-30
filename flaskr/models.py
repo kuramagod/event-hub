@@ -2,7 +2,7 @@ import re
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash
-from transliterate import translit 
+from slugify import slugify
 from .db import Base, db_session
 
 
@@ -71,21 +71,12 @@ class Event(Base):
     city = relationship("City", back_populates="events")
     favorites = relationship("Favorite", back_populates="event")
 
-    def generate_slug(self):
-        base_slug = self.name.lower()
-        base_slug = translit(base_slug, 'ru', reversed=True)
-        base_slug = re.sub(r'[^a-z0-9]+', '-', base_slug)
-        base_slug = base_slug.strip('-')
-        return base_slug
-
     def save(self):
         if not self.slug:
-            base_slug = self.generate_slug()
-            self.slug = base_slug
-            
+            self.slug = slugify(self.name)
             counter = 1
             while Event.query.filter_by(slug=self.slug).first():
-                self.slug = f"{base_slug}-{counter}"
+                self.slug = f"{self.slug}-{counter}"
                 counter += 1
         db_session.add(self)
         db_session.commit()

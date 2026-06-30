@@ -89,6 +89,7 @@ def add_event():
             city_id=city_id,
             user_id=current_user.id,
         )
+        event.save()
         db_session.add(event)
         db_session.commit()
 

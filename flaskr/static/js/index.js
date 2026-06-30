@@ -56,11 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const eventId = card.dataset.id;
       if (!eventId) return;
 
-      card.addEventListener('click', (e) => {
-        if (e.target.closest('.like-btn')) return;
-        window.location.href = `/event/event?id=${eventId}`;
-      });
-
       const likeButton = card.querySelector('.like-btn');
       if (likeButton) {
         likeButton.addEventListener('click', (event) => {
