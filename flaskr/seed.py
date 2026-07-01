@@ -4,18 +4,18 @@ from flaskr.models import Category, City, Event, User
 
 
 def seed_database():        
-    categories_data = [
-        'Концерты',
-        'Спорт',
-        'Театр и кино',
-        'Выставки',
-        'Конференции'
-    ]
+    categories_data = {
+        'Концерты': '#918FFF',
+        'Спорт': '#FF6B9D',
+        'Театр и кино': '#4ECDC4',
+        'Выставки': '#FFD93D',
+        'Конференции': '#4A7CF7',
+    }
     
     categories = []
-    for cat_name in categories_data:
+    for cat_name, cat_color in categories_data.items():
         if not db_session.query(Category).filter_by(name=cat_name).first():
-            category = Category(name=cat_name, color="#918FFF")
+            category = Category(name=cat_name, color=cat_color)
             db_session.add(category)
             categories.append(category)
     
@@ -177,7 +177,7 @@ def seed_database():
                 date=event_date,
                 description=event_data['description'],
                 image_url=event_data['image_url'],
-                user_id=demo_user.id
+                user_id=demo_user.id,
             )
             db_session.add(event)
     

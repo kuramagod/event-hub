@@ -68,6 +68,10 @@
 		</div>
 
 		<div>
+			{{ render_field(form.external_url, type="url", placeholder='https://...', required=False) }}
+		</div>
+
+		<div>
 			{{ render_field(form.description, type="textarea", rows="5", placeholder="Подробное описание события...", required=True) }}
 		</div>
 

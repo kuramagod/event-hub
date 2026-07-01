@@ -62,7 +62,9 @@
 			<div class="relative h-44">
 				<img src="{{ event.image_url }}" alt="{{ event.name }}" class="w-full h-full object-cover">
 				<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-					<span class="absolute top-3 left-3 px-3 py-1 bg-[{{ event.category.color }}]/20 text-[{{ event.category.color }}] border-[{{ event.category.color }}]/30 backdrop-blur-md text-xs font-bold rounded-lg border uppercase">{{ event.category.name }}</span>
+					<span class="absolute top-3 left-3 px-3 py-1 bg-[{{ event.category.color }}]/20 text-[{{ event.category.color }}] border-[{{ event.category.color }}]/30 backdrop-blur-md text-xs font-bold rounded-lg border uppercase">
+						{{ event.category.name }}
+					</span>
 					
 					<button type="button"
 						class="like-btn absolute top-3 right-3 p-2 bg-black/40 backdrop-blur-md rounded-full transition {{ 'text-rose-500' if event.is_liked else 'text-white/70' }}"

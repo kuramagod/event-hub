@@ -63,6 +63,7 @@ class Event(Base):
     price = Column(String(50), unique=False)
     description = Column(String(500), unique=False)
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
+    external_url = Column(String, unique=False, nullable=True)
 
     author = relationship("User", back_populates="events")
     category = relationship("Category", back_populates="events")

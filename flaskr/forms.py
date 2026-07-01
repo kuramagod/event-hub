@@ -90,6 +90,7 @@ class EventForm(Form):
 
     address = StringField('Адрес', validators=[
         validators.DataRequired(),
+        validators.URL(),
         validators.Length(max=200, message="Длина поля должна быть до 200 символов")
     ])
 
@@ -103,6 +104,10 @@ class EventForm(Form):
 
     price = IntegerField("Укажите цену", validators=[
         validators.DataRequired()
+    ])
+
+    external_url = URLField("Ссылка на внеший ресурс", validators=[
+        validators.URL()
     ])
 
     description = TextAreaField("Описание", validators=[
