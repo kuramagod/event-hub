@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from flaskr.db import db_session
 from flaskr.models import Category, City, Event, User
-from werkzeug.security import generate_password_hash
 
 
 def seed_database():        
@@ -16,7 +15,7 @@ def seed_database():
     categories = []
     for cat_name in categories_data:
         if not db_session.query(Category).filter_by(name=cat_name).first():
-            category = Category(name=cat_name)
+            category = Category(name=cat_name, color="#918FFF")
             db_session.add(category)
             categories.append(category)
     

@@ -4,102 +4,101 @@
 
 {% block content %}
 <section class="relative py-20 flex flex-col items-center justify-center text-center px-4 bg-gradient-to-br from-gray-950 via-violet-950/20 to-gray-950 shrink-0 border-b border-white/5 pt-32">
-  <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(124,58,237,0.1),transparent_70%)]"></div>
-  <div class="max-w-4xl mx-auto text-center relative z-10">
-    <h1 class="text-5xl md:text-6xl font-black tracking-tight mb-6">Найди событие своего города</h1>
-    <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto font-medium">Сотни концертов, выставок и лекций.</p>
-    
-    <!-- Поиск -->
-    <div class="flex flex-col md:flex-row w-full max-w-2xl mx-auto bg-gray-900/80 backdrop-blur border border-gray-700 p-1.5 rounded-2xl shadow-2xl relative">
-      <div class="flex-1 flex items-center px-4">
-        <svg class="w-5 h-5 text-gray-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        <input type="text" id="searchInput" placeholder="Поиск по названию..." class="bg-transparent w-full text-white placeholder-gray-500 focus:outline-none py-2 text-lg">
-      </div>
-      <button id="searchButton" class="bg-violet-600 hover:bg-violet-500 text-white px-8 py-3 rounded-xl font-bold transition shadow-lg shadow-violet-600/20 w-full md:w-auto mt-2 md:mt-0">Найти</button>
-    </div>
-  </div>
+	<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(124,58,237,0.1),transparent_70%)]"></div>
+		<div class="max-w-4xl mx-auto text-center relative z-10">
+			<h1 class="text-5xl md:text-6xl font-black tracking-tight mb-6">Найди событие своего города</h1>
+			<p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto font-medium">Сотни концертов, выставок и лекций.</p>
+
+			<!-- Поиск -->
+			<div class="flex flex-col md:flex-row w-full max-w-2xl mx-auto bg-gray-900/80 backdrop-blur border border-gray-700 p-1.5 rounded-2xl shadow-2xl relative">
+				<div class="flex-1 flex items-center px-4">
+					<svg class="w-5 h-5 text-gray-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+					<input type="text" id="searchInput" placeholder="Поиск по названию..." class="bg-transparent w-full text-white placeholder-gray-500 focus:outline-none py-2 text-lg">
+				</div>
+				<button id="searchButton" class="bg-violet-600 hover:bg-violet-500 text-white px-8 py-3 rounded-xl font-bold transition shadow-lg shadow-violet-600/20 w-full md:w-auto mt-2 md:mt-0">Найти</button>
+			</div>
+	</div>
 </section>
 
 <!-- Секция фильтрации -->
 <section class="max-w-7xl mx-auto px-6 py-8">
-  <div class="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center mb-8">
+	<div class="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center mb-8">
     
-    <!-- Категории -->
-    <div class="flex flex-wrap gap-3" id="categoryFilters">
-      <button data-cat="Все" class="filter-cat px-5 py-2 rounded-full text-sm font-semibold transition-all bg-violet-600 text-white ring-2 ring-violet-600 ring-offset-2 ring-offset-slate-950">Все</button>
-      {% for category in categories %}
-        <button data-cat="{{ category.name }}" class="filter-cat px-5 py-2 rounded-full text-sm font-semibold transition-all bg-gray-900 text-gray-400 hover:bg-gray-800">{{ category.name }}</button>
-      {% endfor %}
-    </div>
+		<!-- Категории -->
+		<div class="flex flex-wrap gap-3" id="categoryFilters">
+			<button data-cat="Все" class="filter-cat px-5 py-2 rounded-full text-sm font-semibold transition-all bg-violet-600 text-white ring-2 ring-violet-600 ring-offset-2 ring-offset-slate-950">Все</button>
+			{% for category in categories %}
+				<button data-cat="{{ category.name }}" class="filter-cat px-5 py-2 rounded-full text-sm font-semibold transition-all bg-gray-900 text-gray-400 hover:bg-gray-800">{{ category.name }}</button>
+			{% endfor %}
+		</div>
 
-    <!-- Дополнительные фильтры -->
-    <div class="flex gap-4 w-full md:w-auto">
-      <select id="citySelect" class="bg-gray-900 border border-gray-700 text-white rounded-xl px-4 py-2 text-sm focus:border-violet-500 outline-none flex-1 md:flex-none">
-        <option value="">Все города</option>
-        {% for city in cities %}
-          <option value="{{ city.name }}">{{ city.name }}</option>
-        {% endfor %}
-      </select>
-      
-      <select id="priceSelect" class="bg-gray-900 border border-gray-700 text-white rounded-xl px-4 py-2 text-sm focus:border-violet-500 outline-none flex-1 md:flex-none">
-        <option value="">Любая цена</option>
-        <option value="free">Бесплатно</option>
-        <option value="paid">Платно</option>
-      </select>
-    </div>
-  </div>
+		<!-- Дополнительные фильтры -->
+		<div class="flex gap-4 w-full md:w-auto">
+			<select id="citySelect" class="bg-gray-900 border border-gray-700 text-white rounded-xl px-4 py-2 text-sm focus:border-violet-500 outline-none flex-1 md:flex-none">
+				<option value="">Все города</option>
+				{% for city in cities %}
+					<option value="{{ city.name }}">{{ city.name }}</option>
+				{% endfor %}
+			</select>
+			
+			<select id="priceSelect" class="bg-gray-900 border border-gray-700 text-white rounded-xl px-4 py-2 text-sm focus:border-violet-500 outline-none flex-1 md:flex-none">
+				<option value="">Любая цена</option>
+				<option value="free">Бесплатно</option>
+				<option value="paid">Платно</option>
+			</select>
+		</div>
+	</div>
 
-  <!-- Сетка мероприятий -->
-  <div id="eventsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
-    {% for event in events %}
-      <div class="bg-gray-900 rounded-3xl overflow-hidden border border-white/5 flex flex-col group cursor-pointer hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20 event-card" 
-        data-id="{{ event.id }}" 
-        data-title="{{ event.name }}" 
-        data-category="{{ event.category.name }}" 
-        data-city="{{ event.city.name }}" 
-        data-price="{{ event.price }}" 
-        onclick="location.href='{{ url_for('event.event', slug=event.slug) }}'">
-        <div class="relative h-44">
-          <img src="{{ event.image_url }}" alt="{{ event.name }}" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-          <span class="absolute top-3 left-3 px-3 py-1 bg-violet-500/20 text-violet-300 border-violet-500/30 backdrop-blur-md text-xs font-bold rounded-lg border uppercase">{{ event.category.name }}</span>
-          <button 
-            type="button"
-            class="like-btn absolute top-3 right-3 p-2 bg-black/40 backdrop-blur-md rounded-full transition {{ 'text-rose-500' if event.is_liked else 'text-white/70' }}"
-            data-liked="{{ 'true' if event.is_liked else 'false' }}"
-            data-event-id="{{ event.id }}">
-            
-            {% if event.is_liked %}
-              <svg class="w-5 h-5 text-rose-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
-              </svg>
-            {% else %}
-              <svg class="w-5 h-5 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            {% endif %}
-          </button>
-        </div>
-        <div class="p-5 flex flex-col flex-1">
-          <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">{{ event.date.strftime('%d.%m.%Y') }} в {{ event.date.strftime('%H:%M') }} • {{ event.city.name }}</p>
-          <h3 class="text-lg font-bold text-white mb-2 leading-tight">{{ event.name }}</h3>
-          <div class="mt-auto flex items-center justify-end">
-            {% if event.price != "0" %}
-            <span class="text-amber-400 font-black text-xl">{{ event.price }}₽</span>
-            {% else %}
-            <span class="text-amber-400 font-black text-xl">Бесплатно</span>
-            {% endif %}
-          </div>
-        </div>
-    </div>
-    {% endfor %}
-  </div>
+	<!-- Сетка мероприятий -->
+	<div id="eventsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
+	{% for event in events %}
+		<div class="bg-gray-900 rounded-3xl overflow-hidden border border-white/5 flex flex-col group cursor-pointer hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20 event-card" 
+			data-id="{{ event.id }}" 
+			data-title="{{ event.name }}" 
+			data-category="{{ event.category.name }}" 
+			data-city="{{ event.city.name }}" 
+			data-price="{{ event.price }}" 
+			onclick="location.href='{{ url_for('event.event', slug=event.slug) }}'">
+			<div class="relative h-44">
+				<img src="{{ event.image_url }}" alt="{{ event.name }}" class="w-full h-full object-cover">
+				<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+					<span class="absolute top-3 left-3 px-3 py-1 bg-[{{ event.category.color }}]/20 text-[{{ event.category.color }}] border-[{{ event.category.color }}]/30 backdrop-blur-md text-xs font-bold rounded-lg border uppercase">{{ event.category.name }}</span>
+					
+					<button type="button"
+						class="like-btn absolute top-3 right-3 p-2 bg-black/40 backdrop-blur-md rounded-full transition {{ 'text-rose-500' if event.is_liked else 'text-white/70' }}"
+						data-liked="{{ 'true' if event.is_liked else 'false' }}"
+						data-event-id="{{ event.id }}">
+					{% if event.is_liked %}
+						<svg class="w-5 h-5 text-rose-500" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+						</svg>
+					{% else %}
+						<svg class="w-5 h-5 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+						</svg>
+					{% endif %}
+				</button>
+			</div>
+			<div class="p-5 flex flex-col flex-1">
+				<p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">{{ event.date.strftime('%d.%m.%Y') }} в {{ event.date.strftime('%H:%M') }} • {{ event.city.name }}</p>
+				<h3 class="text-lg font-bold text-white mb-2 leading-tight">{{ event.name }}</h3>
+				<div class="mt-auto flex items-center justify-end">
+					{% if event.price != "0" %}
+						<span class="text-amber-400 font-black text-xl">{{ event.price }}₽</span>
+					{% else %}
+						<span class="text-amber-400 font-black text-xl">Бесплатно</span>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
   
-  <!-- Пустое отображение -->
-  <div id="emptyState" class="hidden text-center py-20">
-    <h3 class="text-xl font-bold text-white mb-2">Ничего не найдено</h3>
-    <p class="text-gray-400">Попробуйте изменить параметры поиска или фильтры</p>
-  </div>
+	<!-- Пустое отображение -->
+	<div id="emptyState" class="hidden text-center py-20">
+		<h3 class="text-xl font-bold text-white mb-2">Ничего не найдено</h3>
+		<p class="text-gray-400">Попробуйте изменить параметры поиска или фильтры</p>
+	</div>
 </section>
 {% endblock %}
 

@@ -28,11 +28,9 @@ class Category(Base):
     __tablename__ = 'category'
     id = Column(Integer, primary_key=True)
     name = Column(String(120), unique=True)
+    color = Column(String, unique=False, nullable=True)
 
     events = relationship("Event", back_populates="category")
-
-    def __init__(self, name=None):
-        self.name = name
 
     def __repr__(self):
         return f'<Категория {self.name!r}>'

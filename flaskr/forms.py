@@ -101,7 +101,7 @@ class EventForm(Form):
         validators.DataRequired()
     ])
 
-    price = IntegerField("Цена(Укажите 0 если бесплатно)", validators=[
+    price = IntegerField("Укажите цену", validators=[
         validators.DataRequired()
     ])
 
