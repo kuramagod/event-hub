@@ -10,6 +10,7 @@
   </div>
   {% from 'macros/_formhelpers.html' import render_field %}
   <form method='POST' class="space-y-5" id="login_form">
+    {{ form.hidden_tag() }}
     {{ render_field(form.email, type="email", placeholder="name@example.com", required=True) }}
     {{ render_field(form.password, type="password", placeholder="Минимум 6 символов", required=True) }}
     <button type="submit" class="w-full bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl py-3.5 mt-4 transition shadow-lg shadow-violet-900/20">Войти</button>

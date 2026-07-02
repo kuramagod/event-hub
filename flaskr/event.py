@@ -71,7 +71,7 @@ def toggle_like(event_id):
 @login_required
 def add_event():
     form = EventForm(request.form)
-    if request.method == "POST":
+    if request.method == "POST" and form.validate():
         current_user = get_current_user()
 
         category_id = form.category.data.id if form.category.data else None
@@ -99,6 +99,41 @@ def add_event():
     return render_template("event/add-event.html", form=form)
 
 
+@bp.route("/edit-event/<string:slug>", methods=["GET", "POST"])
+@login_required
+def edit_event(slug):
+    event = db_session.query(Event).filter_by(slug=slug).first()
+    
+    if get_current_user() != event.author or not event:
+        abort(403)
+
+    form = EventForm(request.form, obj=event)
+
+    if request.method == "GET" and event.date:
+        form.date.data = event.date.date()
+        form.time.data = event.date.time().replace(second=0, microsecond=0)
+            
+    if request.method == "POST" and form.validate():
+        category_id = form.category.data.id if form.category.data else None
+        city_id = form.city.data.id if form.city.data else None
+        event_datetime = datetime.datetime.combine(form.date.data, form.time.data)
+
+        event.name = form.name.data
+        event.category_id = category_id
+        event.image_url = form.image_url.data
+        event.price = form.price.data
+        event.date = event_datetime
+        event.description = form.description.data
+        event.address = form.address.data
+        event.city_id = city_id
+        event.external_url = form.external_url.data
+
+        db_session.commit()
+        return redirect(url_for("event.event", slug=event.slug))
+    
+    return render_template("event/edit-event.html", form=form, event=event)
+
+
 @bp.route("/collection")
 @login_required
 def collection():
@@ -111,8 +146,8 @@ def collection():
 @login_required
 def profile():
     current_user = get_current_user()
-    profile_form = ProfileForm(request.form, user=current_user)
-    change_password_form = ChangePasswordForm(request.form, user=current_user)
+    profile_form = ProfileForm(request.form, obj=current_user)
+    change_password_form = ChangePasswordForm(request.form, user=current_user, obj=current_user)
 
     if request.method == "POST":
         if profile_form.submit_profile.data and profile_form.validate():

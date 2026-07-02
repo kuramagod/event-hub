@@ -26,10 +26,10 @@
           <input type="text" name="email" value="{{ user.email }}" disabled class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-gray-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition">
         </div>
         <div>
-          {{ render_field(profile_form.fullname, type="text", value=user.fullname, required=False) }}
+          {{ render_field(profile_form.fullname, type="text", required=False) }}
         </div>
         <div>
-          {{ render_field(profile_form.phone, type="phone", value=user.phone, required=False) }}
+          {{ render_field(profile_form.phone, type="phone", required=False) }}
         </div>
         {{ profile_form.submit_profile(class="w-full bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl py-3 mt-4 transition") }}
       </form>

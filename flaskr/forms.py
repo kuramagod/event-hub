@@ -1,3 +1,4 @@
+from flask_wtf import FlaskForm
 from wtforms import Form, StringField, PasswordField, validators, ValidationError, URLField, DateField, TimeField, IntegerField, TextAreaField, SubmitField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from flaskr.db import db_session
@@ -42,7 +43,7 @@ class RegisterationForm(Form):
     ]) 
 
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     email = StringField("E-mail", validators=[
         validators.DataRequired(message="E-mail обязателен"),
         validators.Email(message="Неверный синтаксис почты"),
@@ -64,7 +65,7 @@ class LoginForm(Form):
         self.user = user
 
 
-class EventForm(Form):
+class EventForm(FlaskForm):
     name = StringField("Название", validators=[
         validators.DataRequired(message="Название обязательно"),
         validators.Length(max=120, message="Длина поля должна быть до 120 символов"),
@@ -90,7 +91,6 @@ class EventForm(Form):
 
     address = StringField('Адрес', validators=[
         validators.DataRequired(),
-        validators.URL(),
         validators.Length(max=200, message="Длина поля должна быть до 200 символов")
     ])
 
@@ -102,9 +102,7 @@ class EventForm(Form):
         validators.DataRequired()
     ])
 
-    price = IntegerField("Укажите цену", validators=[
-        validators.DataRequired()
-    ])
+    price = IntegerField("Укажите цену")
 
     external_url = URLField("Ссылка на внеший ресурс", validators=[
         validators.URL()
@@ -116,7 +114,7 @@ class EventForm(Form):
     ])
 
 
-class ProfileForm(Form):    
+class ProfileForm(FlaskForm):    
     fullname = StringField('ФИО', validators=[
         validators.DataRequired(message="ФИО обязательно"),
         validators.Length(min=4, max=50, message="Длина поля должна быть от 4 до 50 символов") 
@@ -129,16 +127,15 @@ class ProfileForm(Form):
     
     submit_profile = SubmitField('Сохранить изменения')
 
-    def __init__(self, formdata=None, obj=None, user=None, **kwargs):
-        super().__init__(formdata, obj, **kwargs)
-        self.user = user
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(ProfileForm, self).__init__(*args, **kwargs)
     
     def validate_phone(self, field):
-        if not field.data:
-            return
-        existing_user = db_session.query(User).filter_by(phone=field.data).first()
-        if existing_user and existing_user.id != self.user.id:
-            raise ValidationError("Телефон уже зарегистирован")
+        if self.user and field.data != self.user.phone:
+            from models import User
+            if User.query.filter_by(phone=field.data).first():
+                raise ValidationError('Этот номер телефона уже занят')
 
 
 class ChangePasswordForm(Form):

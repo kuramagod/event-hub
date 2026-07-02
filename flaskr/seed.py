@@ -165,7 +165,7 @@ def seed_database():
     for event_data in events_data:
         existing_event = db_session.query(Event).filter_by(name=event_data['name']).first()
         if not existing_event:
-            event_date = datetime.now() + timedelta(days=event_data['days_offset'])
+            event_date = datetime.now().replace(second=0, microsecond=0) + timedelta(days=event_data['days_offset'])
             
             event = Event(
                 name=event_data['name'],

@@ -60,7 +60,7 @@ class Event(Base):
     city_id = Column(Integer, ForeignKey('city.id', ondelete='SET NULL'))
     address = Column(String(200), unique=False)
     date = Column(DateTime, nullable=False)
-    price = Column(String(50), unique=False)
+    price = Column(String(50), unique=False, nullable=True)
     description = Column(String(500), unique=False)
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
     external_url = Column(String, unique=False, nullable=True)
