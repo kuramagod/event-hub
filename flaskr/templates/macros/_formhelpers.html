@@ -22,7 +22,7 @@
             <input type="{{ type }}" 
                    name="{{ field.name }}"
                    id="{{ field.id }}"
-                   value="{{ field.data or '' }}"
+                   value="{{ field._value() }}"
                    {% if required or field.flags.required %}required{% endif %}
                    {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
                    class="w-full bg-gray-800 border {% if has_error %}border-red-500 focus:border-red-500 ring-red-500{% else %}border-gray-700 focus:border-violet-500{% endif %} rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:ring-1 focus:ring-violet-500 outline-none transition">

@@ -21,6 +21,7 @@
       <h2 class="text-xl font-bold text-white mb-6">Личные данные</h2>
       {% from "macros/_formhelpers.html" import render_field %}
       <form id="profile_form" method="POST" class="space-y-4">
+        {{ profile_form.hidden_tag() }}
         <div>
           <label class="block text-sm font-medium text-gray-300 mb-1.5">Почта</label>
           <input type="text" name="email" value="{{ user.email }}" disabled class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-gray-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition">
@@ -39,6 +40,7 @@
     <div class="bg-gray-900 rounded-3xl p-8 border border-white/5 shadow-xl">
       <h2 class="text-xl font-bold text-white mb-6">Смена пароля</h2>
       <form id="password_form" method="POST" class="space-y-4">
+        {{ change_password_form.hidden_tag() }}
         <div>
           {{ render_field(change_password_form.old_password, type="password", required=True) }}
         </div>

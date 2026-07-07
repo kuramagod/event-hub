@@ -6,7 +6,7 @@ from flask import Blueprint, jsonify, redirect, render_template, request, url_fo
 from flaskr.auth import get_current_user, login_required
 from flaskr.db import db_session
 from flaskr.models import Category, City, Event, Favorite
-from flaskr.forms import EventForm, ProfileForm, ChangePasswordForm
+from flaskr.forms import EventForm, ProfileForm, ChangePasswordForm, DeleteForm
 
 bp = Blueprint("event", __name__, url_prefix="/event")
 
@@ -33,7 +33,8 @@ def index():
 @bp.route("/<string:slug>") 
 def event(slug):
     event = db_session.query(Event).filter_by(slug=slug).first()
-
+    delete_form = DeleteForm()
+    
     if not event:
         abort(404)
 
@@ -43,7 +44,7 @@ def event(slug):
     if current_user and event:
         is_liked = any(fav.event_id == event.id for fav in current_user.favorite)
 
-    return render_template("event/event.html", event=event, is_liked=is_liked)
+    return render_template("event/event.html", event=event, is_liked=is_liked, delete_form=delete_form)
 
 
 @bp.route('/api/toggle-like/<int:event_id>', methods=['POST'])
@@ -70,8 +71,8 @@ def toggle_like(event_id):
 @bp.route("/add-event", methods=["GET", "POST"])
 @login_required
 def add_event():
-    form = EventForm(request.form)
-    if request.method == "POST" and form.validate():
+    form = EventForm()
+    if request.method == "POST" and form.validate_on_submit():
         current_user = get_current_user()
 
         category_id = form.category.data.id if form.category.data else None
@@ -104,16 +105,19 @@ def add_event():
 def edit_event(slug):
     event = db_session.query(Event).filter_by(slug=slug).first()
     
-    if get_current_user() != event.author or not event:
+    if not event:
+        abort(404)
+
+    if get_current_user() != event.author:
         abort(403)
 
-    form = EventForm(request.form, obj=event)
+    form = EventForm(obj=event)
 
     if request.method == "GET" and event.date:
         form.date.data = event.date.date()
         form.time.data = event.date.time().replace(second=0, microsecond=0)
             
-    if request.method == "POST" and form.validate():
+    if request.method == "POST" and form.validate_on_submit():
         category_id = form.category.data.id if form.category.data else None
         city_id = form.city.data.id if form.city.data else None
         event_datetime = datetime.datetime.combine(form.date.data, form.time.data)
@@ -134,6 +138,22 @@ def edit_event(slug):
     return render_template("event/edit-event.html", form=form, event=event)
 
 
+@bp.route("/delete-event/<int:id>", methods=["POST"])
+@login_required
+def delete_event(id):
+    event = db_session.query(Event).filter_by(id=id).first()
+    if not event:
+        abort(404)
+
+    if get_current_user() != event.author:
+        abort(403)
+    
+    db_session.delete(event)
+    db_session.commit()
+
+    return redirect(url_for("event.index"))
+
+
 @bp.route("/collection")
 @login_required
 def collection():
@@ -146,20 +166,22 @@ def collection():
 @login_required
 def profile():
     current_user = get_current_user()
-    profile_form = ProfileForm(request.form, obj=current_user)
-    change_password_form = ChangePasswordForm(request.form, user=current_user, obj=current_user)
-
-    if request.method == "POST":
-        if profile_form.submit_profile.data and profile_form.validate():
-            current_user.fullname = profile_form.fullname.data
-            current_user.phone = profile_form.phone.data
-            db_session.commit()
-            return redirect(url_for("event.profile"))
+    
+    profile_form = ProfileForm(obj=current_user, user=current_user)
+    change_password_form = ChangePasswordForm(user=current_user)
+   
+    if profile_form.submit_profile.data and profile_form.validate():
+        current_user.fullname = profile_form.fullname.data
+        current_user.phone = profile_form.phone.data
         
-        elif change_password_form.submit_password.data and change_password_form.validate():
-            current_user.set_password(change_password_form.new_password.data)
-            db_session.commit()
-            return redirect(url_for("event.profile"))
+        db_session.commit()
+        return redirect(url_for("event.profile"))
+    
+    if change_password_form.submit_password.data and change_password_form.validate():
+        current_user.set_password(change_password_form.new_password.data)
+        
+        db_session.commit()
+        return redirect(url_for("event.profile"))
 
 
     return render_template("event/profile.html", profile_form=profile_form, change_password_form=change_password_form)

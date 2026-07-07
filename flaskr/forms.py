@@ -102,16 +102,23 @@ class EventForm(FlaskForm):
         validators.DataRequired()
     ])
 
-    price = IntegerField("Укажите цену")
+    price = IntegerField("Укажите цену", validators=[
+        validators.Optional()
+    ])
 
     external_url = URLField("Ссылка на внеший ресурс", validators=[
-        validators.URL()
+        validators.URL(),
+        validators.Optional()
     ])
 
     description = TextAreaField("Описание", validators=[
         validators.DataRequired(),
         validators.Length(max=500, message="Длина поля должна быть до 500 символов")
     ])
+
+
+class DeleteForm(FlaskForm):
+    submit = SubmitField("Удалить")
 
 
 class ProfileForm(FlaskForm):    
@@ -127,18 +134,19 @@ class ProfileForm(FlaskForm):
     
     submit_profile = SubmitField('Сохранить изменения')
 
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super(ProfileForm, self).__init__(*args, **kwargs)
+    def __init__(self, user=None, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
     
     def validate_phone(self, field):
-        if self.user and field.data != self.user.phone:
-            from models import User
-            if User.query.filter_by(phone=field.data).first():
-                raise ValidationError('Этот номер телефона уже занят')
+        if not field.data:
+            return
+        existing_user = db_session.query(User).filter_by(phone=field.data).first()
+        if existing_user and existing_user.id != self.user.id:
+            raise ValidationError("Телефон уже зарегистирован")
 
 
-class ChangePasswordForm(Form):
+class ChangePasswordForm(FlaskForm):
     old_password = PasswordField('Старый пароль',  validators=[
         validators.DataRequired(message="Старый пароль обязателен"),
         validators.Length(min=6, max=35, message="Длина поля должна быть от 6 до 35 символов"), 
@@ -155,9 +163,9 @@ class ChangePasswordForm(Form):
     ])
     submit_password = SubmitField('Изменить пароль')
 
-    def __init__(self, formdata=None, obj=None, user=None, **kwargs):
-        super().__init__(formdata, obj, **kwargs)
+    def __init__(self, user=None, *args, **kwargs):
         self.user = user
+        super().__init__(*args, **kwargs)
     
     def validate_old_password(self, field):
         if not self.user or not check_password_hash(self.user.password_hash, field.data):

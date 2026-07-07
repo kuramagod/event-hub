@@ -28,7 +28,7 @@ def get_current_user() -> User | None:
 
 @bp.route("/register", methods=["GET", "POST"])
 def register():
-    form = RegisterationForm(request.form)
+    form = RegisterationForm()
     if request.method == "POST" and form.validate():
         user = User(fullname=form.fullname.data, email=form.email.data, phone=form.phone.data)
         user.set_password(password=form.password.data)
@@ -41,7 +41,7 @@ def register():
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
-    form = LoginForm(request.form)
+    form = LoginForm()
     if request.method == "POST" and form.validate():
         session["user_id"] = form.user.id
         session["logged_in"] = True

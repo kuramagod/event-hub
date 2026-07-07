@@ -76,6 +76,10 @@
 						{% endif %}
 						{% if user == event.author %}
 						<a href="{{ url_for('event.edit_event', slug=event.slug) }}" class="w-full text-center py-3 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-semibold transition">Редактировать</a>
+						<form method="POST" action="{{ url_for('event.delete_event', id=event.id) }}">
+							{{ delete_form.hidden_tag() }}
+							{{ delete_form.submit(class="w-full text-center py-3 rounded-xl bg-red-700 hover:bg-red-600 text-white font-semibold transition") }}
+						</form>
 						{% endif %}
 					</div>
 				</div>

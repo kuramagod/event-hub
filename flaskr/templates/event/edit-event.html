@@ -10,8 +10,8 @@
 		<p class="text-gray-400">Заполните данные для публикации мероприятия в каталоге.</p>
 	</div>	
   	{% from "macros/_formhelpers.html" import render_field %}
-    {{ form.hidden_tag() }} 
 	<form method='POST' class="bg-gray-900 rounded-3xl p-8 border border-white/5 shadow-2xl space-y-6" id="edit_form">
+		{{ form.hidden_tag() }}
 		<div>
 			{{ render_field(form.name, type="text", required=False) }}
 		</div>
