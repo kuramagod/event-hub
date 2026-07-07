@@ -2,9 +2,9 @@ import functools
 
 from flask import Blueprint, redirect, render_template, request, session, url_for 
 
-from flaskr.db import db_session
-from flaskr.models import User
-from flaskr.forms import RegisterationForm, LoginForm
+from app.db import db_session
+from app.models import User
+from app.forms import RegisterationForm, LoginForm
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 

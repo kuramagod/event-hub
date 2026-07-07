@@ -7,7 +7,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
     if test_config is None:
-        app.config.from_object('flaskr.config.Config')
+        app.config.from_object('app.config.Config')
     else:
         app.config.from_mapping(test_config)
 
@@ -26,7 +26,7 @@ def create_app(test_config=None):
 
     @app.context_processor
     def inject_user():
-        from flaskr.auth import get_current_user
+        from app.auth import get_current_user
         return dict(user=get_current_user())
 
     return app

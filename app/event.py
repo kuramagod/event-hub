@@ -3,10 +3,10 @@ import re
 
 from flask import Blueprint, jsonify, redirect, render_template, request, url_for, abort
 
-from flaskr.auth import get_current_user, login_required
-from flaskr.db import db_session
-from flaskr.models import Category, City, Event, Favorite
-from flaskr.forms import EventForm, ProfileForm, ChangePasswordForm, DeleteForm
+from app.auth import get_current_user, login_required
+from app.db import db_session
+from app.models import Category, City, Event, Favorite
+from app.forms import EventForm, ProfileForm, ChangePasswordForm, DeleteForm
 
 bp = Blueprint("event", __name__, url_prefix="/event")
 

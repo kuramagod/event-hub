@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, PasswordField, validators, ValidationError, URLField, DateField, TimeField, IntegerField, TextAreaField, SubmitField
 from wtforms_sqlalchemy.fields import QuerySelectField
-from flaskr.db import db_session
-from flaskr.models import User, Category, City
+from app.db import db_session
+from app.models import User, Category, City
 from werkzeug.security import check_password_hash
 
 

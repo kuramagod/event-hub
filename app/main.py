@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, url_for
-from flaskr.auth import get_current_user
+from app.auth import get_current_user
 
 bp = Blueprint('main', __name__)
 

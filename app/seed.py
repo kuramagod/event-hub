@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
-from flaskr.db import db_session
-from flaskr.models import Category, City, Event, User
+from app.db import db_session
+from app.models import Category, City, Event, User
 
 
 def seed_database():        

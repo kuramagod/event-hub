@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / 'instance' / 'flaskr.sqlite'
+DB_PATH = BASE_DIR / 'instance' / 'app.sqlite'
 
 engine = create_engine(f'sqlite:///{DB_PATH}', connect_args={"check_same_thread": False})
 
@@ -15,7 +15,7 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 
 def _import_models():
-    from flaskr import models
+    from app import models
     return models
 
 @click.command('init-db')
@@ -26,7 +26,7 @@ def init_db_command():
 @click.command('seed-db')
 def seed_db_command():
     try:
-        from flaskr.seed import seed_database
+        from app.seed import seed_database
         seed_database()
         click.echo('✓ Database seeded with sample data.')
     except Exception as e:
