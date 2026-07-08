@@ -76,7 +76,6 @@
 ```
 event-hub/
 ├── app/
-│   ├── __pycache__/
 │   ├── static/
 │   │   ├── css/
 │   │   │   └── style.css          # Стили
@@ -97,22 +96,38 @@ event-hub/
 │   │   │   ├── edit-event.html    # Редактирование мероприятия
 │   │   │   ├── event.html         # Детальная страница мероприятия
 │   │   │   ├── index.html         # Главная страница со списком
+│   │   ├── profile/
 │   │   │   └── profile.html       # Профиль пользователя
 │   │   ├── macros/
 │   │   │   └── _formhelpers.html  # Макросы для форм
 │   │   ├── base.html              # Базовый layout
 │   │   └── navbar.html            # Переиспользуемая навигация
 │   ├── __init__.py                # App Factory, инициализация расширений
-│   ├── auth.py                    # Blueprint: регистрация, вход, выход
+│   ├── auth/                      # Blueprint: регистрация, вход, выход
+│   │   ├── __init__.py
+│   │   ├── forms.py
+│   │   ├── routes.py
+│   │   └── services.py
+│   ├── event/                     # Blueprint: CRUD мероприятий, фильтры, поиск, избранное
+│   │   ├── __init__.py
+│   │   ├── forms.py
+│   │   └── routes.py
+│   ├── main/                      # Общие маршруты
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── profile/                   # Blueprint: профиль пользователя
+│   │   ├── __init__.py
+│   │   ├── forms.py
+│   │   └── routes.py
 │   ├── config.py                  # Конфигурация приложения
 │   ├── db.py                      # Инициализация SQLAlchemy
-│   ├── event.py                   # Blueprint: CRUD мероприятий, фильтры, поиск, избранное
 │   ├── forms.py                   # WTForms-формы
-│   ├── main.py                    # Общие маршруты
-│   ├── models.py                  # Модели БД (User, Event, Category, City, Favorite)
+│   ├── models.py                  # Модели БД
 │   └── seed.py                    # CLI-скрипт наполнения БД демоданными
 ├── instance/
 │   └── app.sqlite                 # База данных SQLite
+├── .env.example                   # Пример переменных окружения
+├── .gitignore
 ├── tests/                         # Тесты
 ├── README.md
 └── requirements.txt

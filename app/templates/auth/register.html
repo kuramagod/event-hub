@@ -10,6 +10,7 @@
   </div>
   {% from "macros/_formhelpers.html" import render_field %}
   <form method="POST" class="space-y-4" id="register_form">
+    {{ form.hidden_tag() }}
     {{ render_field(form.fullname, placeholder="Иван Иванов", required=True) }}
     {{ render_field(form.email, type="email", placeholder="ivan@example.com", required=True) }}
     {{ render_field(form.phone, type="tel", placeholder="7 (999) 000-00-00", required=False) }}

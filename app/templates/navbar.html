@@ -15,7 +15,7 @@
     <div class="flex items-center gap-4">
       <a href="{{ url_for('event.add_event') }}" class="px-4 py-2 text-sm font-semibold text-violet-400 border border-violet-500/50 rounded-xl hover:bg-violet-500/10 transition whitespace-nowrap hidden sm:block">Добавить событие</a>
       {% if user %}
-          <a href="{{ url_for('event.profile') }}" class="hover:opacity-80 transition group">
+          <a href="{{ url_for('profile.profile') }}" class="hover:opacity-80 transition group">
             <div class="w-10 h-10 rounded-full bg-violet-700 flex items-center justify-center font-bold border-2 border-white/10 text-white shadow-lg group-hover:shadow-violet-900/50 transition-all">
               {{ user.fullname[0] }}
             </div>
