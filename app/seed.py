@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from app.db import db_session
-from app.models import Category, City, Event, User
+from app.models import Category, City, Event, User, Role
 
 
 def seed_database():        
@@ -37,13 +37,26 @@ def seed_database():
             cities.append(city)
     
     db_session.commit()
+
+    roles_data = [
+        'Админ',
+        'Пользователь'
+    ]
+    
+    for role_name in roles_data:
+        if not db_session.query(Role).filter_by(name=role_name).first():
+            role = Role(name=role_name)
+            db_session.add(role)
+    
+    db_session.commit()
     
     demo_user = db_session.query(User).filter_by(email='demo@example.com').first()
     if not demo_user:
         demo_user = User(
             fullname='Demo User',
             email='demo@example.com',
-            phone='79991234567'
+            phone='79991234567',
+            role_id=1
         )
         demo_user.set_password('demo123')
         db_session.add(demo_user)

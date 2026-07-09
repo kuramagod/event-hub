@@ -6,14 +6,27 @@ from slugify import slugify
 from .db import Base, db_session
 
 
+class Role(Base):
+    __tablename__ = 'role'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), unique=True)
+
+    user = relationship("User", back_populates="role")
+
+    def __repr__(self):
+        return f'<Роль {self.name!r}>'
+
+
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     fullname = Column(String(100), unique=False)
     email = Column(String(120), unique=True)
     phone = Column(String(50), unique=True)
+    role_id = Column(Integer, ForeignKey('role.id', ondelete='SET NULL'))
     password_hash = Column(String(255), unique=False)
-
+    
+    role = relationship("Role", back_populates="user")
     events = relationship("Event", back_populates="author")
     favorite = relationship("Favorite", back_populates="user")
 
