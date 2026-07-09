@@ -1,9 +1,7 @@
-import re
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash
-from slugify import slugify
-from .db import Base, db_session
+from .db import Base
 
 
 class Role(Base):
@@ -11,10 +9,10 @@ class Role(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), unique=True)
 
-    user = relationship("User", back_populates="role")
+    users = relationship("User", back_populates="role")
 
     def __repr__(self):
-        return f'<Роль {self.name!r}>'
+        return f"Роль: {self.name}" if self.name else "Роль"
 
 
 class User(Base):
@@ -26,7 +24,7 @@ class User(Base):
     role_id = Column(Integer, ForeignKey('role.id', ondelete='SET NULL'))
     password_hash = Column(String(255), unique=False)
     
-    role = relationship("Role", back_populates="user")
+    role = relationship("Role", back_populates="users")
     events = relationship("Event", back_populates="author")
     favorite = relationship("Favorite", back_populates="user")
 
@@ -34,7 +32,7 @@ class User(Base):
         self.password_hash = generate_password_hash(password)
 
     def __repr__(self):
-        return f'<Пользователь {self.fullname!r}>'
+        return f"Пользователь: {self.fullname}" if self.fullname else "Пользователь"
 
 
 class Category(Base):
@@ -46,7 +44,7 @@ class Category(Base):
     events = relationship("Event", back_populates="category")
 
     def __repr__(self):
-        return f'<Категория {self.name!r}>'
+        return f"Категория: {self.name}" if self.name else "Категория"
 
 
 class City(Base):
@@ -60,7 +58,7 @@ class City(Base):
         self.name = name
 
     def __repr__(self):
-        return f'<Город {self.name!r}>'
+        return f"Город: {self.name}" if self.name else "Город"
 
 
 class Event(Base):
@@ -69,7 +67,7 @@ class Event(Base):
     name = Column(String(120), unique=False)
     slug = Column(String(120), unique=True, nullable=False)
     category_id = Column(Integer, ForeignKey('category.id', ondelete='SET NULL'))
-    image_url = Column(String(50), unique=False)
+    image_url = Column(String(550), unique=False)
     city_id = Column(Integer, ForeignKey('city.id', ondelete='SET NULL'))
     address = Column(String(200), unique=False)
     date = Column(DateTime, nullable=False)
@@ -83,18 +81,8 @@ class Event(Base):
     city = relationship("City", back_populates="events")
     favorites = relationship("Favorite", back_populates="event")
 
-    def save(self):
-        if not self.slug:
-            self.slug = slugify(self.name)
-            counter = 1
-            while Event.query.filter_by(slug=self.slug).first():
-                self.slug = f"{self.slug}-{counter}"
-                counter += 1
-        db_session.add(self)
-        db_session.commit()
-
     def __repr__(self):
-        return f'<Мероприятие {self.name!r}>'
+        return f"Мероприятие: {self.name}" if self.name else "Мероприятие"
 
 
 class Favorite(Base):
@@ -111,4 +99,4 @@ class Favorite(Base):
         self.event = event
 
     def __repr__(self):
-        return f'<Добавлен в избранное у {self.user!r}>'
+        return f"Избранное: {self.user}" if self.user else "Избранное"

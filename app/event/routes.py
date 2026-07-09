@@ -89,7 +89,6 @@ def add_event():
             user_id=current_user.id,
             external_url=form.external_url.data
         )
-        event.save()
         db_session.add(event)
         db_session.commit()
 
